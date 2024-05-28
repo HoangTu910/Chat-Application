@@ -5,6 +5,7 @@ void setColor(int color)
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 
+//Move cursor to specific position
 void gotoXY(int x, int y)
 {
     COORD coordinate;
@@ -68,9 +69,11 @@ int centerWindow(int width)
 	return left;
 }
 
+//Center the element in terminal
 int centerBox(int boxWidth, int width)
 {
-    int terminalWidth = (getTerminalWidth() / 2);
+	//Calculate the axis for centering element
+    	int terminalWidth = (getTerminalWidth() / 2);
 	int left = terminalWidth - (boxWidth / 2);
 	int windowWidth = terminalWidth - (width / 2);
 	return windowWidth;
@@ -140,6 +143,7 @@ int findMaxString(std::vector<std::string> vector) {
 	return max;
 }
 
+//Generate option menu to choose and return which option user choose
 int optionMenu(int height, std::string chatLabel, std::string menuLabel, int numberMenu,...)
 {
     system("cls");
@@ -217,6 +221,7 @@ int optionMenu(int height, std::string chatLabel, std::string menuLabel, int num
 	}
 }
 
+//Clear chat buffer every time user type in
 void clearBuffer(int length)
 {
     std::cout << "\r";
