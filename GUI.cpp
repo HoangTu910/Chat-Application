@@ -5,7 +5,6 @@ void setColor(int color)
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 
-//Move cursor to specific position
 void gotoXY(int x, int y)
 {
     COORD coordinate;
@@ -69,11 +68,9 @@ int centerWindow(int width)
 	return left;
 }
 
-//Center the element in terminal
 int centerBox(int boxWidth, int width)
 {
-	//Calculate the axis for centering element
-    	int terminalWidth = (getTerminalWidth() / 2);
+    int terminalWidth = (getTerminalWidth() / 2);
 	int left = terminalWidth - (boxWidth / 2);
 	int windowWidth = terminalWidth - (width / 2);
 	return windowWidth;
@@ -143,7 +140,6 @@ int findMaxString(std::vector<std::string> vector) {
 	return max;
 }
 
-//Generate option menu to choose and return which option user choose
 int optionMenu(int height, std::string chatLabel, std::string menuLabel, int numberMenu,...)
 {
     system("cls");
@@ -221,11 +217,43 @@ int optionMenu(int height, std::string chatLabel, std::string menuLabel, int num
 	}
 }
 
-//Clear chat buffer every time user type in
 void clearBuffer(int length)
 {
     std::cout << "\r";
     for (size_t i = 0; i < length; ++i) {
         std::cout << " ";
     }
+}
+
+void WINDOW_RESOLUTION()
+{
+	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SMALL_RECT windowSize = {0, 0, 127, 35}; // Set the window size here (left, top, right, bottom)
+    SetConsoleWindowInfo(console, TRUE, &windowSize);
+}
+
+void removeRectangle(int left, int top, int width, int height)
+{
+	hideCursor(true);
+	gotoXY(left, top);
+	std::cout << " ";
+	for (int i = 0; i < width; ++i) {
+		std::cout << " ";
+	}
+	std::cout << " ";
+
+	for (int i = 0; i <= height; ++i) {
+		gotoXY(left, top + i + 1);
+		std::cout << " ";
+	}	
+	gotoXY(left, top + height + 1);
+	std::cout << " ";
+	for (int i = 0; i < width; ++i) {
+		std::cout << " ";
+	}
+	std::cout << " ";
+	for (int i = 0; i <= height-1; ++i) {
+		gotoXY(left+width+1, top +i+1);
+		std::cout << " ";
+	}
 }
