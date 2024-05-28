@@ -13,7 +13,7 @@ void GENERATE_LOGIN(){
 	int height = 10;
 	int top = 7;
 	int left = centerWindow(width);
-    std::string checkResponse = "200";
+    	std::string checkResponse = "200";
 	do {
 		std::string chatLabel = "CHAT APPLICATION";
 		std::string loginLabel = "LOGIN";
@@ -37,17 +37,20 @@ void GENERATE_LOGIN(){
 		std::getline(std::cin>>std::ws, client.username);
 		gotoXY(left + 16, top + 6);
 		std::getline(std::cin>>std::ws, client.password);
+	//Combine message and key to send
         std::string message = client.username + "," + client.password + ",1";
-        
+        //Send message with key to server
         send(clientSocket, message.c_str(), message.length(), 0);
         char buffer[1024] = {0};
+	//Receive response from server and handle specific task for clients
         int recvSize = recv(clientSocket, buffer, sizeof(buffer), 0);
         if (recvSize > 0){
             std::string response(buffer, recvSize);
             checkResponse = response;
         } 
-    }while(checkResponse != "201"); //check validate
+    }while(checkResponse != "201"); //check validate, retype username and password when !validate
     notiBox("Now you can start the conversation");
+    //Start the chat
     return JOIN_CHAT();
 }
 
@@ -129,6 +132,7 @@ void receiveMessages(SOCKET clientSocket) {
 
 void FIRST_MENU()
 {
+    //Choose between login and signup
     int option = optionMenu(8, "CHAT APPLICATION", "LOGIN OR SIGN UP", 2, "1. Login", "2. Sign up");
     switch(option){
         case 1: GENERATE_LOGIN(); break;
@@ -136,6 +140,7 @@ void FIRST_MENU()
     }
 }
 
+//Set up SOCKET
 int SOCKET_START(SOCKET &clientSocket)
 {
     WSADATA wsaData;
